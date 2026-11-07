@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="I passaggi illustrati per installare App Scuola, progetto non ufficiale di uno studente.">
+<title>Installa App Scuola</title>
+<style>
+/* Idea: un foglio a quadretti corretto con la matita rossoblu. Il blu guida i passi, il rosso segnala dove stare attenti. */
+:root {
+  --carta: #f7f9fc; --foglio: #ffffff; --quadretto: #dfe7f3; --inchiostro: #17233a; --tenue: #55627a;
+  --blu: #1c4fd1; --blu-chiaro: #e7eefc; --su-blu: #ffffff; --rosso: #b3261e; --rosso-chiaro: #fdecea; --bordo: #cdd8e8;
+  --titoli: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --testo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --carta: #10151f; --foglio: #182030; --quadretto: #1c2536; --inchiostro: #edf1f8; --tenue: #a7b3c7;
+  --blu: #8cacff; --blu-chiaro: #1e2c4d; --su-blu: #0d1424; --rosso: #ff9d94; --rosso-chiaro: #3a1d1c; --bordo: #33405a; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --carta: #10151f; --foglio: #182030; --quadretto: #1c2536; --inchiostro: #edf1f8; --tenue: #a7b3c7;
+  --blu: #8cacff; --blu-chiaro: #1e2c4d; --su-blu: #0d1424; --rosso: #ff9d94; --rosso-chiaro: #3a1d1c; --bordo: #33405a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+body {
+  background-color: var(--carta); color: var(--inchiostro); font: 400 18px/1.55 var(--testo);
+  background-image: linear-gradient(var(--quadretto) 1px, transparent 1px), linear-gradient(90deg, var(--quadretto) 1px, transparent 1px);
+  background-size: 26px 26px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px;
+}
+.foglio { max-width: 720px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--titoli); margin: 0; text-wrap: balance; line-height: 1.12; }
+h1 { font-size: clamp(2.3rem, 8vw, 3.6rem); font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: clamp(1.45rem, 4.5vw, 1.8rem); font-weight: 800; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--blu); font-weight: 700; }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid var(--blu); outline-offset: 3px; border-radius: 4px; }
+header { display: grid; gap: 18px; }
+.intro { font-size: 1.2rem; max-width: 34em; }
+.non-ufficiale { color: var(--tenue); font-size: .95rem; max-width: 40em; }
+.fatti { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.fatti li { background: var(--foglio); border: 1px solid var(--bordo); border-radius: 999px; padding: 4px 14px; font-size: .95rem; }
+.sezione { background: var(--foglio); border: 1px solid var(--bordo); border-radius: 10px; padding: clamp(20px, 5vw, 32px); display: grid; gap: 20px; }
+.sezione > .sotto { color: var(--tenue); }
+.serve { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+ol.passi { list-style: none; margin: 0; padding: 0; display: grid; gap: 26px; }
+.passo { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; }
+.num {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  border: 2px solid var(--blu); color: var(--blu); font: 800 1.1rem var(--titoli); background: var(--foglio); position: relative;
+}
+.num input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.num:has(input:focus-visible) { outline: 3px solid var(--blu); outline-offset: 3px; }
+.num:has(input:checked) { background: var(--blu); color: var(--su-blu); }
+.corpo { min-width: 0; display: grid; gap: 10px; align-content: start; }
+.corpo img { display: block; border: 1px solid var(--bordo); border-radius: 12px; height: auto; }
+.telefono { width: min(260px, 100%); }
+.modulo { width: min(460px, 100%); }
+.installa {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; justify-self: start; min-height: 60px; padding: 12px 26px;
+  background: var(--blu); color: var(--su-blu); border-radius: 10px; font: 800 1.2rem var(--titoli); text-decoration: none; max-width: 100%;
+}
+.installa:hover { filter: brightness(1.1); }
+.piccola { color: var(--tenue); font-size: .95rem; }
+.attenzione { background: var(--rosso-chiaro); border-left: 4px solid var(--rosso); padding: 12px 14px; border-radius: 0 8px 8px 0; }
+.attenzione b { color: var(--rosso); }
+.campi { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--bordo); }
+.campi div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--bordo); }
+.campi dt { font-weight: 700; overflow-wrap: anywhere; }
+.campi dd { margin: 0; }
+@media (max-width: 480px) { .campi div { grid-template-columns: 1fr; gap: 2px; } }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: var(--blu-chiaro); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+details { border-top: 1px solid var(--bordo); padding-block: 12px; }
+details:last-of-type { border-bottom: 1px solid var(--bordo); }
+summary { font-weight: 700; cursor: pointer; }
+details p { margin-top: 8px; }
+.problemi { display: grid; }
+.uso { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+footer { color: var(--tenue); font-size: .95rem; display: grid; gap: 8px; }
+</style>
+</head>
+<body>
+
+
+<main class="foglio">
+  <header>
+    <h1>Installa App&nbsp;Scuola</h1>
+    <p class="intro">Agenda, voti e piano di studio, presi da Classeviva e sempre sul tuo telefono. Segui i passi uno alla volta: non serve saper usare il computer.</p>
+    <ul class="fatti">
+      <li>Gratis</li>
+      <li>Senza carta di credito</li>
+      <li>Niente da scaricare</li>
+    </ul>
+    <p class="non-ufficiale">App Scuola è un progetto non ufficiale di uno studente: non è di Classeviva né di Spaggiari. L'app sarà tua: starà nel tuo account e ci entrerai solo tu.</p>
+  </header>
+
+  <section class="sezione" aria-labelledby="t-serve">
+    <h2 id="t-serve">Cosa ti serve</h2>
+    <ul class="serve">
+      <li>Nome utente e password di <b>Classeviva</b>.</li>
+      <li>Un <b>computer</b> con Chrome, solo per l'installazione.</li>
+      <li>Una tua <b>email</b>, meglio se personale: se la scuola disattiva la sua, potresti perdere l'accesso.</li>
+    </ul>
+    <p>Se sei minorenne, fatti aiutare da un genitore: dovrai creare due account e accettarne le condizioni.</p>
+  </section>
+
+  <section class="sezione" aria-labelledby="t-account">
+    <div>
+      <h2 id="t-account">1. Crea i due account</h2>
+    </div>
+    <p class="sotto">Sono gratuiti e servono a tenere l'app a tuo nome. Se li hai già, passa alla parte 2. Le pagine sono spesso in inglese: <i>Sign up</i> vuol dire "iscriviti".</p>
+    <ol class="passi">
+      <li class="passo"><label class="num"><input type="checkbox" id="p1" aria-label="Passo 1 fatto">1</label><div class="corpo"><h3>Crea l'account GitHub</h3><p><a href="https://github.com/signup">Apri GitHub</a>. Conterrà la copia della tua app. Non dovrai mai usarlo direttamente.</p></div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p2" aria-label="Passo 2 fatto">2</label><div class="corpo"><h3>Crea l'account Cloudflare</h3><p><a href="https://dash.cloudflare.com/sign-up">Apri Cloudflare</a>. Farà funzionare la tua app.</p></div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p3" aria-label="Passo 3 fatto">3</label><div class="corpo"><h3>Conferma le email</h3><p>Apri la tua posta e conferma entrambi gli account.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="sezione" aria-labelledby="t-installa">
+    <h2 id="t-installa">2. Installa l'app</h2>
+    <ol class="passi">
+      <li class="passo"><label class="num"><input type="checkbox" id="p4" aria-label="Passo 4 fatto">4</label><div class="corpo">
+        <h3>Clicca questo pulsante</h3>
+        <a class="installa" href="https://deploy.workers.cloudflare.com/?url=https://github.com/GiThappo/app-scuola">Installa la mia app →</a>
+        <p class="piccola">Si apre Cloudflare. Se te lo chiede, accedi.</p>
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p5" aria-label="Passo 5 fatto">5</label><div class="corpo">
+        <h3>Collega GitHub, solo la prima volta</h3>
+        <p>Clicca <b>New GitHub connection</b>, poi autorizza.</p>
+        <p class="attenzione"><b>Se finisci su una pagina con "Hello World" e altre opzioni, non sceglierle.</b> È normale: torna qui e clicca di nuovo "Installa la mia app".</p>
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p6" aria-label="Passo 6 fatto">6</label><div class="corpo">
+        <h3>Compila il modulo</h3>
+        <p>Devi toccare solo tre cose. Il browser può tradurre qualche parola.</p>
+        <dl class="campi">
+          <div><dt>Git account</dt><dd>Scegli il tuo account GitHub.</dd></div>
+          <div><dt>Create private Git repository</dt><dd>Metti la spunta.</dd></div>
+          <div><dt>APP_PASSWORD</dt><dd>Inventa una password per aprire l'app.</dd></div>
+        </dl>
+        <img class="modulo" src="guida/cloudflare-modulo-1.png" width="562" height="553" alt="Parte alta del modulo: Git account, la casella Create private Git repository, nome del progetto e database.">
+        <p>Più in basso trovi il campo della password:</p>
+        <img class="modulo" src="guida/cloudflare-modulo-2.png" width="561" height="496" alt="Parte bassa del modulo: il campo APP_PASSWORD e il pulsante Distribuisci.">
+        <p class="attenzione"><b>Non usare la password di Classeviva e salva subito quella nuova in un posto sicuro.</b> Dopo non potrai rileggerla.</p>
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p7" aria-label="Passo 7 fatto">7</label><div class="corpo">
+        <h3>Clicca Distribuisci, o Deploy</h3>
+        <p>Aspetta qualche minuto. A volte la pagina sembra ferma, ma è normale. Quando vedi un segno di spunta verde, è finita.</p>
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p8" aria-label="Passo 8 fatto">8</label><div class="corpo">
+        <h3>Apri la tua app</h3>
+        <p>Nella pagina del progetto su Cloudflare c'è un indirizzo che finisce con <code>.workers.dev</code>. Aprilo e salvalo tra i preferiti.</p>
+        <p class="attenzione"><b>Non copiarlo dall'elenco di righe tecniche.</b> Il browser, traducendo, può cambiarne le lettere.</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <section class="sezione" aria-labelledby="t-avvio">
+    <h2 id="t-avvio">3. Il primo avvio</h2>
+    <ol class="passi">
+      <li class="passo"><label class="num"><input type="checkbox" id="p9" aria-label="Passo 9 fatto">9</label><div class="corpo">
+        <h3>Entra con la tua password</h3>
+        <p>Quella che hai inventato al passo 6. Poi segui il riquadro <b>Per iniziare</b>.</p>
+        <img class="telefono" src="guida/app-per-iniziare.png" width="390" height="780" alt="Scheda Agenda con il riquadro Per iniziare e i tre passi da seguire.">
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p10" aria-label="Passo 10 fatto">10</label><div class="corpo">
+        <h3>Collega Classeviva</h3>
+        <p>Tocca <b>Collega Classeviva</b> e scrivi i dati del registro. L'app li controlla e li salva cifrati nel tuo account.</p>
+        <img class="telefono" src="guida/app-classeviva.png" width="390" height="780" alt="Modulo con nome utente e password di Classeviva e il pulsante Collega.">
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p11" aria-label="Passo 11 fatto">11</label><div class="corpo">
+        <h3>Controlla l'orario</h3>
+        <p>L'app può proporlo dal registro, ma può sbagliare: correggilo e tocca <b>Salva orario</b>. Se un giorno non hai scuola, lascialo vuoto.</p>
+        <img class="telefono" src="guida/app-orario.png" width="390" height="780" alt="Modifica dell'orario: materie del lunedì, ora di uscita e tipo di giornata.">
+      </div></li>
+      <li class="passo"><label class="num"><input type="checkbox" id="p12" aria-label="Passo 12 fatto">12</label><div class="corpo">
+        <h3>Mettila sul telefono</h3>
+        <p>Apri l'indirizzo della tua app sul telefono ed entra.</p>
+        <p><b>iPhone:</b> apri in Safari, tocca Condividi, poi "Aggiungi alla schermata Home".</p>
+        <p><b>Android:</b> apri in Chrome, tocca il menu ⋮, poi "Aggiungi a schermata Home".</p>
+        <p><b>Fatto!</b> Da adesso la apri come una normale app.</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <section class="sezione" aria-labelledby="t-giorni">
+    <h2 id="t-giorni">Ogni giorno</h2>
+    <ul class="uso">
+      <li><b>Agenda:</b> cosa c'è per domani, verifiche e interrogazioni.</li>
+      <li><b>Studio:</b> il piano di studio. Con <b>＋ Impegno</b> segni sport e corsi, e il piano si organizza intorno.</li>
+      <li><b>Materie:</b> voti, medie e appunti. Con <b>＋ Aggiungi appunti</b> carichi foto e PDF.</li>
+    </ul>
+  </section>
+
+  <section class="sezione problemi" aria-labelledby="t-problemi">
+    <h2 id="t-problemi">Se qualcosa non va</h2>
+    <div>
+      <details><summary>La pagina di Cloudflare resta bianca</summary><p>Riprova più tardi: può essere un problema momentaneo di Cloudflare.</p></details>
+      <details><summary>L'installazione finisce con un errore rosso</summary><p>Non usare "Retry build". Clicca di nuovo "Installa la mia app" e cambia il nome del progetto, per esempio <code>app-scuola2</code>. In "Select D1 database" scegli "Create new" e scrivi lo stesso nome.</p></details>
+      <details><summary>"Identificativo o password errati"</summary><p>Controlla i dati di Classeviva o tocca "Correggi nome utente e password". L'app non riprova da sola, per non far bloccare il tuo account.</p></details>
+      <details><summary>"Classeviva non risponde"</summary><p>Il problema è passeggero: riprova più tardi.</p></details>
+      <details><summary>Ho dimenticato la password dell'app</summary><p>Va cambiata su Cloudflare: fatti aiutare da qualcuno esperto.</p></details>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Sicurezza:</b> non dare a nessuno la password dell'app né gli account Cloudflare e GitHub, e attiva su entrambi la verifica in due passaggi. I tuoi voti stanno nel tuo account: l'autore del progetto non li vede.</p>
+    <p>Puoi eliminare tutto quando vuoi: cancella il progetto e il database da Cloudflare e la copia dell'app da GitHub.</p>
+  </footer>
+</main>
+
+<script>
+  // Ricorda i passi spuntati solo su questo dispositivo; senza memoria la pagina funziona lo stesso.
+  document.querySelectorAll('.num input').forEach(function (casella) {
+    var chiave = 'passo-' + casella.id;
+    try { casella.checked = localStorage.getItem(chiave) === '1'; } catch (e) {}
+    casella.addEventListener('change', function () {
+      try { localStorage.setItem(chiave, casella.checked ? '1' : '0'); } catch (e) {}
+    });
+  });
+</script>
+
+</body>
+</html>
